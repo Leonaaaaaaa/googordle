@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>miau</title>
+    <title>Googordle</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>A googol is:</h1>
-    <button id="add-btn">Add</button>
-    <button id="subtract-btn">Subtract</button>
-    <button id="zoom">ZoOoOoOoOoOomm~</button>
-    <button id="findword">"Find Word"</button>
-    <p id="googol"></p>
-    <p id="uniquewords"></p>
+    <div id="header">
+        <h1>Googordle</h1>
+    </div>
+    <div id="wordles">
+        <div class="wordle">
+            <div class="wordle-hints">
+                <!-- Hints n stuff go here -->
+            </div>
+            <div class="wordle-entries">
+                <div class="wordle-row">
+                    <div class="wordle-char">h</div><div class="wordle-char">o</div><div class="wordle-char">r</div><div class="wordle-char">s</div><div class="wordle-char">e</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <p>and <span id="googol"></span> more...</p>
+
+
+    <div id="keyboard">
+
+    </div>
 </body>
 <script src="script.js"></script>
+
 </html>

@@ -1,0 +1,45 @@
+body {
+    font-family: "Comic Sans MS";
+    font-size: large;
+    width: 60%;
+    margin: auto;
+}
+
+@media screen and (width <= 800px) {
+    body {
+        width: 90%;
+    }
+}
+
+#header p{
+    line-break: anywhere;
+}
+
+#wordles {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    
+}
+
+.wordle {
+    background-color: #ffa99e94;
+    padding: 3px;
+    height: 200px;
+    border-radius: 3px;
+    border: black 1px solid;
+}
+
+.wordle-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.wordle-char {
+    background-color: #ffffff;
+    width: 25px;
+    height: 25px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
