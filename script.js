@@ -39,10 +39,11 @@ findword.addEventListener("click", () => {
     const u = 1 - Math.random(); // Converting [0,1) to (0,1]
     const v = Math.random();
     const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+    
     // calculate mean and standard deviation to approximate binomial distribution
     const mean = googol / words;
     const sd = (sqrt(googol * (words-1n))) / words;
-    const deviation = (sd * BigInt(z * 10000000000)) / 10000000000n;
+    const deviation = (sd * BigInt(Math.round(z * 1000000000000000000))) / 10000000000n;
     googol = googol - mean + deviation;
     words--;
     display.innerHTML = googol.toString();
