@@ -23,10 +23,7 @@ body {
 }
 
 .wordle {
-    background-color: #ffa99e94;
     padding: 3px;
-    height: 200px;
-    border-radius: 3px;
     border: black 1px solid;
 }
 
@@ -36,10 +33,41 @@ body {
 }
 
 .wordle-char {
-    background-color: #ffffff;
+    color: #ffffff;
     width: 25px;
     height: 25px;
-    margin: 5px;
-    border-radius: 5px;
+    margin: 1px;
     text-align: center;
+    font-weight: bold;
+    border: black 1px solid;
+}
+
+.char-y {
+    background-color: #dddd00;
+}
+
+.char-g {
+    background-color: #00cc00;
+}
+
+.char-b {
+    background-color: #707070;
+}
+
+.wordle-expand {
+    height: 10px;
+    line-height: 10px;
+    font-size: 10px;
+    margin: 1px;
+    text-align: center;
+    border: black 1px solid;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #000000;
+    margin: 3px 1px 3px 1px;
+    padding: 0;
 }
