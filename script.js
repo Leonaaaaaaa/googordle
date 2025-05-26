@@ -54,7 +54,7 @@ findword.addEventListener("click", () => {
     wordsdisplay.innerHTML = words.toString();
 });
 
-document.addEventListener("keypress", function onEvent(event) {
+document.addEventListener("keydown", function onEvent(event) {
     const i = event.key;
     if (i.length === 1 && i.match(/[a-z|A-Z]/i) && inputshown.length < 5) {
         inputshown = inputshown + i;
