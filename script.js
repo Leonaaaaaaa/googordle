@@ -1,5 +1,6 @@
 let googol = 10n ** 100n;
 let words = 2309n;
+let inputshown = "";
 
 let subtract = document.getElementById("subtract-btn");
 let add = document.getElementById("add-btn");
@@ -7,6 +8,7 @@ let display = document.getElementById("googol");
 let wordsdisplay = document.getElementById("uniquewords");
 let zoom = document.getElementById("zoom");
 let findword = document.getElementById("findword");
+let inputtest = document.getElementById("input-test");
 
 display.innerHTML = googol.toString();
 wordsdisplay.innerHTML = words.toString();
@@ -50,6 +52,18 @@ findword.addEventListener("click", () => {
     display.innerHTML = googol.toString();
     wordsdisplay.innerHTML = words.toString();
 });
+
+document.addEventListener("keypress", function onEvent(event) {
+    const i = event.key;
+    if (i.length === 1 && i.match(/[a-z|A-Z]/i) && inputshown.length < 5) {
+        inputshown = inputshown + i;
+        inputtest.innerHTML = inputshown.toString();
+    }
+    if (i === "Backspace") {
+        inputshown = inputshown.slice(0,-1);
+        inputtest.innerHTML = inputshown.toString();
+    }
+}
 
 let fraction = 137309;
 let multiplier = 100000;
