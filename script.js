@@ -12,6 +12,7 @@ let inputtest = document.getElementById("input-test");
 
 display.innerHTML = googol.toString();
 wordsdisplay.innerHTML = words.toString();
+inputtest.innerHTML = inputshown.toString();
 
 subtract.addEventListener("click", () => {
     googol = googol - 1n;
@@ -63,7 +64,7 @@ document.addEventListener("keypress", function onEvent(event) {
         inputshown = inputshown.slice(0,-1);
         inputtest.innerHTML = inputshown.toString();
     }
-}
+});
 
 let fraction = 137309;
 let multiplier = 100000;
