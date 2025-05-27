@@ -1,19 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>miau</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Googordle</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-    <h1>A googol is:</h1>
-    <button id="add-btn">Add</button>
-    <button id="subtract-btn">Subtract</button>
-    <button id="zoom">ZoOoOoOoOoOomm~</button>
-    <button id="findword">"Find Word"</button>
-    <p id="googol"></p>
-    <p id="uniquewords"></p>
-    <p id="input-test"></p>
+    <div id="header">
+        <h1>Googordle</h1>
+        <p>
+            A wordle game where you solve
+            10,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000
+            at once!
+        </p>
+          <h1>A googol is:</h1>
+          <button id="findword">"Find Word"</button>
+          <p id="googol"></p>
+          <p id="uniquewords"></p>
+          <p id="input-test"></p>
+    </div>
+    <div id="wordles">
+        <div class="wordle">
+            <div class="wordle-hints">
+                <div class="wordle-row">
+                    <div class="wordle-char char-y">E</div>
+                    <div class="wordle-char char-y">E</div>
+                    <div class="wordle-char char-y">E</div>
+                    <div class="wordle-char char-y">E</div>
+                    <div class="wordle-char char-g">E</div>
+                </div>
+                <div class="wordle-row">
+                    <div class="wordle-char char-g">H</div>
+                    <div class="wordle-char char-y">H</div>
+                    <div class="wordle-char char-y">H</div>
+                    <div class="wordle-char char-y">H</div>
+                    <div class="wordle-char char-y">H</div>
+                </div>
+                <div class="wordle-row">
+                    <div class="wordle-char char-y">O</div>
+                    <div class="wordle-char char-g">O</div>
+                    <div class="wordle-char char-y">O</div>
+                    <div class="wordle-char char-y">O</div>
+                    <div class="wordle-char char-y">O</div>
+                </div>
+                <div class="wordle-row">
+                    <div class="wordle-char char-y">R</div>
+                    <div class="wordle-char char-y">R</div>
+                    <div class="wordle-char char-g">R</div>
+                    <div class="wordle-char char-y">R</div>
+                    <div class="wordle-char char-y">R</div>
+                </div>
+                <div class="wordle-row">
+                    <div class="wordle-char char-y">S</div>
+                    <div class="wordle-char char-y">S</div>
+                    <div class="wordle-char char-y">S</div>
+                    <div class="wordle-char char-g">S</div>
+                    <div class="wordle-char char-y">S</div>
+                </div>
+            </div>
+            <button class="wordle-expand">^^^</button>
+            <div class="wordle-entries">
+                <div class="wordle-row">
+                    <div class="wordle-char char-b">H</div>
+                    <div class="wordle-char char-b">O</div>
+                    <div class="wordle-char char-b">R</div>
+                    <div class="wordle-char char-b">S</div>
+                    <div class="wordle-char char-b">E</div>
+                </div>
+                <div class="wordle-row">
+                    <div class="wordle-char char-b">H</div>
+                    <div class="wordle-char char-b">O</div>
+                    <div class="wordle-char char-b">R</div>
+                    <div class="wordle-char char-b">S</div>
+                    <div class="wordle-char char-b">E</div>
+                </div>
+                <div class="wordle-row current">
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                </div>
+                <div class="wordle-row empty">
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                </div>
+                <div class="wordle-row empty">
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                    <div class="wordle-char char-b"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>And <span id="googol"></span> more...</p>
+
+    <div id="keyboard">
+        <div class="keyboard-row">
+            <div class="key">Q</div>
+            <div class="key">W</div>
+            <div class="key">E</div>
+            <div class="key">R</div>
+            <div class="key">T</div>
+            <div class="key">Y</div>
+            <div class="key">U</div>
+            <div class="key">I</div>
+            <div class="key">O</div>
+            <div class="key">P</div>
+        </div>
+        <div class="keyboard-row">
+            <div class="spacer half"></div>
+            <div class="key">A</div>
+            <div class="key">S</div>
+            <div class="key">D</div>
+            <div class="key">F</div>
+            <div class="key">G</div>
+            <div class="key">H</div>
+            <div class="key">J</div>
+            <div class="key">K</div>
+            <div class="key">L</div>
+            <div class="spacer half"></div>
+        </div>
+        <div class="keyboard-row">
+            <div class="key wide" data-key="Enter">Enter</div>
+            <div class="key">Z</div>
+            <div class="key">X</div>
+            <div class="key">C</div>
+            <div class="key">V</div>
+            <div class="key">B</div>
+            <div class="key">N</div>
+            <div class="key">M</div>
+            <div class="key wide" data-key="Backspace">←</div>
+        </div>
+    </div>
 </body>
 <script src="script.js" type="module" ></script>
 </html>
