@@ -34,7 +34,7 @@ let letterposs = {};
 for (const letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     letterposs[letter] = [ false, false, false, false, false ];
 
-display.innerHTML = googol.toString();
+display.innerHTML = (googol - wordlecount).toString();
 wordsdisplay.innerHTML = words.toString();
 refillWords();
 row01.innerHTML = "-";
@@ -51,12 +51,12 @@ row11.innerHTML = inputshown;
 
 subtract.addEventListener("click", () => {
     googol = googol - 1n;
-    display.innerHTML = googol.toString();
+    display.innerHTML = (googol - wordlecount).toString();
 });
 
 add.addEventListener("click", () => {
     googol = googol + 1n;
-    display.innerHTML = googol.toString();
+    display.innerHTML = (googol - wordlecount).toString();
 });
 
 let zoomin = false;
@@ -65,7 +65,7 @@ zoom.addEventListener("click", () => {
     if (zoomin) {
         interval = setInterval(() => {
             googol--;
-            display.innerHTML = googol.toString();
+            display.innerHTML = (googol - wordlecount).toString();
         }, 0);
     } else {
         clearInterval(interval);
