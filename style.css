@@ -3,18 +3,19 @@ body {
     font-size: large;
     width: 60%;
     margin: auto;
-
+    padding-bottom: 25vh;
+    
     background-color: #121212;
     color: #e0e0e0;
 }
 
-@media screen and (width <=800px) {
+@media screen and (width <= 800px) {
     body {
         width: 90%;
     }
 }
 
-#header p {
+p {
     line-break: anywhere;
 }
 
@@ -22,6 +23,14 @@ body {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
+}
+
+@media screen and (width <= 800px) {
+    #wordles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
 }
 
 .wordle {
@@ -80,4 +89,73 @@ body {
 
 .wordle-expand:hover {
     background-color: #666666;
+}
+
+#keyboard {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100vw;
+    max-width: 100%;
+    height: 25vh;
+
+    padding: 1vh;
+    border-top: 1px solid #636363;
+    background-color: #1e1e1e9c;
+
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5vh;
+}
+
+.key {
+    margin: 0.3vh;
+    padding: 1vh 1.5vh;
+    min-width: 5vw;
+    text-align: center;
+
+    border-radius: 4px;
+    background-color: #2c2c2c;
+    color: #ffffff;
+
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: all 100ms;
+    box-sizing: border-box;
+}
+
+.key:hover {
+    background-color: #444444;
+}
+
+.wide {
+    min-width: 10vw;
+}
+
+@media screen and (max-width: 800px) {
+    #keyboard {
+        height: 20vh;
+    }
+
+    body {
+        padding-bottom: 20vh;
+    }
+
+    .key {
+        min-width: 6vw;
+        padding: 1vh;
+        font-size: 1em;
+    }
+
+    .key .wide {
+        min-width: 12vw;
+    }
 }
