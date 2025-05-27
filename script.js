@@ -49,29 +49,6 @@ row09.innerHTML = "-";
 row10.innerHTML = "-";
 row11.innerHTML = inputshown;
 
-subtract.addEventListener("click", () => {
-    googol = googol - 1n;
-    display.innerHTML = (googol - wordlecount).toString();
-});
-
-add.addEventListener("click", () => {
-    googol = googol + 1n;
-    display.innerHTML = (googol - wordlecount).toString();
-});
-
-let zoomin = false;
-zoom.addEventListener("click", () => {
-    zoomin = !zoomin;
-    if (zoomin) {
-        interval = setInterval(() => {
-            googol--;
-            display.innerHTML = (googol - wordlecount).toString();
-        }, 0);
-    } else {
-        clearInterval(interval);
-    }
-});
-
 findword.addEventListener("click", () => {
     //box-muller transform for random number with normal distribution
     const u = 1 - Math.random(); // Converting [0,1) to (0,1]
