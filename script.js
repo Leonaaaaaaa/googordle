@@ -1,4 +1,4 @@
-import * as answers from 'answers.txt';
+import * as answers from './answers.txt';
 
 let googol = 10n ** 100n;
 let words = 2309n;
