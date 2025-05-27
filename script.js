@@ -1,4 +1,4 @@
-import * as answers from './answers.txt';
+import * as fileA from './answers.js';
 
 let googol = 10n ** 100n;
 let words = 2309n;
