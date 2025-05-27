@@ -34,7 +34,7 @@ let letterposs = {};
 for (const letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     letterposs[letter] = [ false, false, false, false, false ];
 
-display.innerHTML = (googol - wordlecount).toString();
+display.innerHTML = (googol - BigInt(wordlecount)).toString();
 wordsdisplay.innerHTML = words.toString();
 refillWords();
 row01.innerHTML = "-";
@@ -62,7 +62,7 @@ findword.addEventListener("click", () => {
     const deviation = (sd * BigInt(Math.round(z * bignumber))) / BigInt(bignumber);
     googol = googol - mean + deviation;
     words--;
-    display.innerHTML = (googol - wordlecount).toString();
+    display.innerHTML = (googol - BigInt(wordlecount)).toString();
     wordsdisplay.innerHTML = words.toString();
 });
 
