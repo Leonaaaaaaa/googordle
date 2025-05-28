@@ -147,3 +147,17 @@ function setclues() { // unfinished function
 
     }
 }
+
+function createWordle() {
+    function createRow(classname = "") {
+        
+    }
+    const wordle = document.createElement("div")
+    wordle.className = "wordle"
+
+    const hints = document.createElement("div")
+    hints = "wordle-hints"
+
+    const entries = document.createElement("div")
+    entries = "wordle-entries"
+}
