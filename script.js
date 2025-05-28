@@ -143,10 +143,7 @@ function pressEnter() {
         for (i = 0; i < 5; i++) {
             const clue = letterposs[word[i]];
             letterposs[word[i]] = clue.slice(0,i) + word[i] + clue.slice(i+1);
-            console.log(letterposs[word[i]] + " " + letterposs[word[i]][i] + " " + word[i]);
         }
-        setclues();
-        writeLetters();
         const index = remaininganswers.indexOf(word);
         if (index > -1) {
             remaininganswers.splice(index, 1);
@@ -156,6 +153,8 @@ function pressEnter() {
             }
             refillWords();
         }
+        setclues();
+        writeLetters();
     }
 }
 
