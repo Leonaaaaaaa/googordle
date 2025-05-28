@@ -52,6 +52,7 @@ p {
     text-align: center;
     font-weight: bold;
     line-height: 30px;
+    border: 1px #313131 solid;
 }
 
 .char-g {
