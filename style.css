@@ -159,3 +159,22 @@ p {
         min-width: 12vw;
     }
 }
+
+@keyframes keypress {
+    0% {
+        transform: translateY(0px);
+        background-color: #444444;
+    }
+    50% {
+        transform: translateY(5px);
+        background-color: #666666;
+    }
+    100% {
+        transform: translateY(0px);
+        background-color: #444444;
+    }
+}
+
+.key.pressed {
+    animation: keypress 150ms ease-in-out;
+}

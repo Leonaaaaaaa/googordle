@@ -1,6 +1,6 @@
 import * as fileA from './answers.js';
 
-let answers = [ "BEANS", "GEESE", "HORSE", "MELON", "SHRUB", "WAGON" ];
+let answers = ["BEANS", "GEESE", "HORSE", "MELON", "SHRUB", "WAGON"];
 let remaininganswers = answers.slice();
 let currentanswers = [];
 
@@ -29,7 +29,7 @@ let row11 = document.getElementById("input");
 let guesses = [];
 let letterposs = {};
 for (const letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    letterposs[letter] = [ false, false, false, false, false ];
+    letterposs[letter] = [false, false, false, false, false];
 
 display.innerHTML = (googol - BigInt(wordlecount)).toString();
 wordsdisplay.innerHTML = words.toString();
@@ -50,11 +50,11 @@ findword.addEventListener("click", () => {
     //box-muller transform for random number with normal distribution
     const u = 1 - Math.random(); // Converting [0,1) to (0,1]
     const v = Math.random();
-    const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
-    
+    const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+
     // calculate mean and standard deviation to approximate binomial distribution
     const mean = googol / words;
-    const sd = (sqrt(googol * (words-1n))) / words;
+    const sd = (sqrt(googol * (words - 1n))) / words;
     const bignumber = 1000000000000000000; // a tool that lets us multiply a float and a bigint
     const deviation = (sd * BigInt(Math.round(z * bignumber))) / BigInt(bignumber);
     googol = googol - mean + deviation;
@@ -65,13 +65,23 @@ findword.addEventListener("click", () => {
 
 document.addEventListener("keydown", function onEvent(event) {
     const i = event.key;
+    const keyboardbtn = document.getElementById("key-" + i.toUpperCase())
+    if (keyboardbtn) {
+		// keyboardbtn.classList.remove('pressed')
+        keyboardbtn.classList.add('pressed');
+        keyboardbtn.addEventListener('animationend', () => {
+            keyboardbtn.classList.remove('pressed');
+        }, { once: true });
+    }
+
+
     if (i.length === 1 && i.match(/[a-z|A-Z]/i) && inputshown.length < 5) {
         inputshown = inputshown + i.toUpperCase();
         row11.innerHTML = inputshown;
     }
     if (i === "Backspace") {
         if (event.ctrlKey) inputshown = "";
-        else inputshown = inputshown.slice(0,-1);
+        else inputshown = inputshown.slice(0, -1);
         row11.innerHTML = inputshown;
     }
     if (i === "Enter") {
@@ -134,6 +144,6 @@ function setclues() { // unfinished function
     let clues = [];
     for (i = 0; i < t.length; i++) {
         let clue = letterposs[t[i]];
-        
+
     }
 }
