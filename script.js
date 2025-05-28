@@ -15,6 +15,7 @@ for (i = 0; i < wordlecount; i++)
 let display = document.getElementById("googol");
 let wordsdisplay = document.getElementById("uniquewords");
 let findword = document.getElementById("findword");
+let wordles = document.getElementById("wordles")
 
 let row00 = document.getElementById("answer");
 let row01 = document.getElementById("clues 1");
@@ -211,3 +212,50 @@ function writeLetters() {
     }
     row11.innerHTML = inputshown;
 }
+
+function createWordle() {
+    function createRow(classname = "") {
+        const row = document.createElement("div");
+        row.className = `wordle-row ${classname}`;
+
+        for (let i = 0; i < 5; i++) {
+            const char = document.createElement("div");
+            char.className = "wordle-char char-b";
+            row.appendChild(char);
+        }
+        return row
+    }
+    const wordle = document.createElement("div");
+    wordle.className = "wordle";
+
+    const hints = document.createElement("div");
+    hints.className = "wordle-hints";
+    for (let i = 0; i < 5; i++) {
+        hints.appendChild(createRow());
+    }
+
+    const entries = document.createElement("div");
+    entries.className = "wordle-entries";
+    entries.appendChild(createRow("current"));
+    for (let i = 0; i < 5; i++) {
+        entries.appendChild(createRow("empty"));
+    }
+
+    const expand = document.createElement("button");
+    expand.className = "wordle-expand";
+    expand.textContent = "^^^";
+
+    wordle.appendChild(hints);
+    wordle.appendChild(expand);
+    wordle.appendChild(entries);
+
+    return wordle;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const amount =  18;
+
+    for (let i = 0; i < amount; i++) {
+        wordles.appendChild(createWordle());
+    }
+});
