@@ -227,8 +227,20 @@ function writeLetters() {
             guessRows[currentIndex + 1].classList.remove("empty");
             guessRows[currentIndex + 1].classList.add("current");
         }
-    });
 
+        //scroll the guesses upward to show only latest guesses on-screen
+        if (guesses.length >= guessRows.length) {
+            const grl = guessRows.length - 1;
+            for (let r = 0; r < grl; r++) {
+                const guesstxt = guesses.at(-grl + r);
+                guessRows[r].childNodes.forEach((cell, c) => {
+                    cell.textContent = guesstxt[c];
+                });
+            }
+            inputshown = "";
+            updateGuess();
+        }
+    });
 }
 
 function createWordle() {
