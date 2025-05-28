@@ -9,11 +9,8 @@ let words = 2309n;
 let inputshown = "";
 let wordlecount = 24;
 
-let subtract = document.getElementById("subtract-btn");
-let add = document.getElementById("add-btn");
 let display = document.getElementById("googol");
 let wordsdisplay = document.getElementById("uniquewords");
-let zoom = document.getElementById("zoom");
 let findword = document.getElementById("findword");
 
 let row00 = document.getElementById("answer");
