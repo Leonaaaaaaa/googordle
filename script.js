@@ -1,4 +1,4 @@
-// import * as fileA from './answers.js';
+import * as fileA from './answers.js';
 
 let answers = ["BEANS", "GEESE", "HORSE", "MELON", "SHRUB", "WAGON"];
 let remaininganswers = answers.slice();
