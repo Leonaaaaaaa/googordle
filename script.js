@@ -13,8 +13,8 @@ for (i = 0; i < wordlecount; i++)
     currentclues.push(["-----"]);
 
 let display = document.getElementById("googol");
-let wordsdisplay = document.getElementById("uniquewords");
-let findword = document.getElementById("findword");
+// let wordsdisplay = document.getElementById("uniquewords");
+// let findword = document.getElementById("findword");
 let wordles = document.getElementById("wordles")
 
 let guesses = [];
@@ -24,12 +24,12 @@ for (const letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 console.log(letterposs);
 
 display.innerHTML = (googol - BigInt(wordlecount)).toString();
-wordsdisplay.innerHTML = words.toString();
+// wordsdisplay.innerHTML = words.toString();
 refillWords();
 
-findword.addEventListener("click", () => {
-    wordFound();
-});
+// findword.addEventListener("click", () => {
+//     wordFound();
+// });
 
 document.addEventListener("keydown", function onEvent(event) {
     const i = event.key;
@@ -80,7 +80,7 @@ function wordFound() {
     googol = googol - mean + deviation;
     words--;
     display.innerHTML = (googol - BigInt(wordlecount)).toString();
-    wordsdisplay.innerHTML = words.toString();
+    // wordsdisplay.innerHTML = words.toString();
 }
 
 function pressLetter(letter) {
@@ -108,22 +108,24 @@ function updateGuess() {
     const currentrows = document.getElementsByClassName("wordle-row current")
     for (let i = 0; i < currentrows.length; i++) {
         let row = currentrows[i]
+
         for (let j = 0; j < 5; j++) {
             const char = inputshown[j];
+
             if (char !== null) {
                 row.children[j].textContent = char
             } else {
                 row.children[j].textContent = ""
             }
 
-            
-
         }
     }
+    return;
 }
 
 function pressEnter() {
     pressButtonAnimation("ENTER");
+    console.log(inputshown)
     if (validguesses.indexOf(inputshown) > -1 || answers.indexOf(inputshown) > -1) {
         const word = inputshown;
         guesses.push(word);
@@ -175,7 +177,7 @@ function setclues() { // unfinished function
                 clues.push(clue);
         }
         for (i = clues.length; i < 5; i++) {
-            clues.push("-")
+            clues.push("-----")
         }
         for (i = 0; i < 5; i++) {
             currentclues[j][i] = clues[i];
@@ -184,19 +186,49 @@ function setclues() { // unfinished function
 }
 
 function writeLetters() {
-    row01.innerHTML = currentclues[0][0];
-    row02.innerHTML = currentclues[0][1];
-    row03.innerHTML = currentclues[0][2];
-    row04.innerHTML = currentclues[0][3];
-    row05.innerHTML = currentclues[0][4];
-    switch (Math.min(5, guesses.length)) {
-        case 5: row06.innerHTML = guesses.at(-5);
-        case 4: row07.innerHTML = guesses.at(-4);
-        case 3: row08.innerHTML = guesses.at(-3);
-        case 2: row09.innerHTML = guesses.at(-2);
-        case 1: row10.innerHTML = guesses.at(-1);
-    }
-    row11.innerHTML = inputshown;
+    // row01.innerHTML = currentclues[0][0];
+    // row02.innerHTML = currentclues[0][1];
+    // row03.innerHTML = currentclues[0][2];
+    // row04.innerHTML = currentclues[0][3];
+    // row05.innerHTML = currentclues[0][4];
+
+    // switch (Math.min(5, guesses.length)) {
+    //     case 5: row06.innerHTML = guesses.at(-5);
+    //     case 4: row07.innerHTML = guesses.at(-4);
+    //     case 3: row08.innerHTML = guesses.at(-3);
+    //     case 2: row09.innerHTML = guesses.at(-2);
+    //     case 1: row10.innerHTML = guesses.at(-1);
+    // }
+    // row11.innerHTML = inputshown;
+
+    const wordleElements = document.querySelectorAll(".wordle");
+
+
+    wordleElements.forEach((wordle, index) => {
+        const clueRows = wordle.querySelectorAll(".wordle-hints .wordle-row");
+        const guessRows = wordle.querySelectorAll(".wordle-entries .wordle-row");
+
+        // add clues
+        const clues = currentclues[index];
+        for (let r = 0; r < 5; r++) {
+            const cluetxt = clues[r];
+            clueRows[r].childNodes.forEach((cell, c) => {
+                const char = cluetxt[c]
+                cell.textContent = (char === "-") ? "" : char;
+            });
+        }
+
+
+        // continue to next line
+        const currentIndex = Array.from(guessRows).findIndex(row => row.classList.contains("current"));
+        if (currentIndex !== -1 && currentIndex + 1 < guessRows.length) {
+            guessRows[currentIndex].classList.remove("current");
+            
+            guessRows[currentIndex + 1].classList.remove("empty");
+            guessRows[currentIndex + 1].classList.add("current");
+        }
+    });
+
 }
 
 function createWordle() {
