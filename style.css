@@ -182,3 +182,59 @@ p {
 .key.pressed {
     animation: keypress 150ms ease-in-out;
 }
+
+#victory-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #ffd700, #ffb700);
+    border-radius: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    animation: popIn 0.5s ease-out;
+    border: 3px solid #313131;
+}
+
+#scroll-part {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+}
+
+#scroll-text {
+    display: inline-block;
+    font-size: 5em;
+    font-weight: 700;
+    color: #1e1e1e;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: scrollText 30s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
