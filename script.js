@@ -20,8 +20,9 @@ let instanceHints = [];
 for (i = 0; i < instanceCount; i++) // fills instanceHints with arrays
     instanceHints.push([""]);
 
-let wordles = document.getElementById("wordles");
-let display = document.getElementById("googol");
+const wordles = document.getElementById("wordles");
+const display = document.getElementById("googol");
+
 
 let guesses = []; // list of all guesses so far
 let guessedLetters = {}; // which letters have been guessed in which positions
@@ -313,9 +314,44 @@ function createWordle() {
     return wordle;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function InitiateVictoryScreen() {
+    if (document.getElementById("victory-screen")) return;
 
+    const VICTORYMUSIC_URL = "sfx/Happy Birthday to You.wav"
+    const VICTORY_TEXT = "Congratulations, you have solved 10,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000 wordles!!!";
+
+    const victoryscreen = document.createElement("div");
+    victoryscreen.id = "victory-screen";
+
+    const scrollpart = document.createElement("div");
+    scrollpart.id = "scroll-part";
+
+    const scrolltext = document.createElement("div");
+    scrolltext.id = "scroll-text";
+    scrolltext.textContent = VICTORY_TEXT;
+
+    const restartbtn = document.createElement("button");
+    restartbtn.id = "restart-game";
+    restartbtn.textContent = "Restart game :)";
+    restartbtn.addEventListener("click", () => {
+        window.location.reload();
+    });
+
+    const music = document.createElement("audio");
+    music.src = VICTORYMUSIC_URL;
+    music.loop = false; // loop could be funny :3
+
+    document.body.appendChild(victoryscreen)
+    victoryscreen.appendChild(scrollpart);
+    scrollpart.appendChild(scrolltext);
+    victoryscreen.appendChild(restartbtn);
+    victoryscreen.appendChild(music);
+    music.play()
+}
+
+document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < instanceCount; i++) {
         wordles.appendChild(createWordle());
     }
 });
+
