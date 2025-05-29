@@ -21,7 +21,6 @@ let guesses = [];
 let letterposs = {};
 for (const letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     letterposs[letter] = "-----";
-console.log(letterposs);
 
 display.innerHTML = (googol - BigInt(wordlecount)).toString();
 // wordsdisplay.innerHTML = words.toString();
@@ -30,6 +29,12 @@ refillWords();
 // findword.addEventListener("click", () => {
 //     wordFound();
 // });
+for (const letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+    const keyboardbtn = document.getElementById("key-" + letter);
+    keyboardbtn.addEventListener("click", () => pressLetter(letter));
+}
+document.getElementById("key-BACKSPACE").addEventListener("click", () => pressBackspace());
+document.getElementById("key-ENTER").addEventListener("click", () => pressEnter());
 
 document.addEventListener("keydown", function onEvent(event) {
     const i = event.key;
@@ -125,7 +130,6 @@ function updateGuess() {
 
 function pressEnter() {
     pressButtonAnimation("ENTER");
-    console.log(inputshown)
     if (validguesses.indexOf(inputshown) > -1 || answers.indexOf(inputshown) > -1) {
         const word = inputshown;
         guesses.push(word);
@@ -145,6 +149,7 @@ function pressEnter() {
         }
         setclues();
         writeLetters();
+        setColors();
     }
 }
 
@@ -166,7 +171,7 @@ function refillWords() {
         currentanswers.push(remaininganswers[Math.floor(Math.random() * w)]);
 }
 
-function setclues() { // unfinished function
+function setclues() {
     for (j = 0; j < wordlecount; j++) {
         const t = currentanswers[j].split("").sort();
         let clues = [];
@@ -227,8 +232,77 @@ function writeLetters() {
             guessRows[currentIndex + 1].classList.remove("empty");
             guessRows[currentIndex + 1].classList.add("current");
         }
-    });
 
+        //scroll the guesses upward to show only latest guesses on-screen
+        if (guesses.length >= guessRows.length) {
+            const grl = guessRows.length - 1;
+            for (let r = 0; r < grl; r++) {
+                const guesstxt = guesses.at(-grl + r);
+                guessRows[r].childNodes.forEach((cell, c) => {
+                    cell.textContent = guesstxt[c];
+                });
+            }
+            inputshown = "";
+            updateGuess();
+        }
+    });
+}
+
+function setColors() {
+    const wordleElements = document.querySelectorAll(".wordle");
+
+    wordleElements.forEach((wordle, index) => {
+        const answer = currentanswers[index];
+        console.log(answer);
+        const clues = currentclues[index];
+        const clueRows = wordle.querySelectorAll(".wordle-hints .wordle-row");
+        const guessRows = wordle.querySelectorAll(".wordle-entries .wordle-row");
+        const grl = Math.min(guessRows.length - 1, guesses.length);
+        for (i = 0; i < 5; i++){
+            const chars = clueRows[i].querySelectorAll(".wordle-char");
+            for (j = 0; j < 5; j++) {
+                console.log(i + " " + j + " " + clues[i][j]);
+                if (clues[i][j] != "-"){
+                    if (answer[j] === clues[i][j]) {
+                        chars[j].classList.add("char-g");
+                        chars[j].classList.remove("char-y");
+                        chars[j].classList.remove("char-b");
+                    }
+                    else {
+                        chars[j].classList.remove("char-g");
+                        chars[j].classList.add("char-y");
+                        chars[j].classList.remove("char-b");
+                    }
+                }
+                else {
+                    chars[j].classList.remove("char-g");
+                    chars[j].classList.remove("char-y");
+                    chars[j].classList.add("char-b");
+                }
+            }
+        }
+        for (i = 0; i < grl; i++) {
+            const chars = guessRows[i].querySelectorAll(".wordle-char");
+            const guesstxt = guesses.at(-grl + i);
+            for (j = 0; j < 5; j++) {
+                if (answer[j] === guesstxt[j]) {
+                    chars[j].classList.add("char-g");
+                    chars[j].classList.remove("char-y");
+                    chars[j].classList.remove("char-b");
+                }
+                else if (answer.indexOf(guesstxt[j]) > -1) {
+                    chars[j].classList.remove("char-g");
+                    chars[j].classList.add("char-y");
+                    chars[j].classList.remove("char-b");
+                }
+                else {
+                    chars[j].classList.remove("char-g");
+                    chars[j].classList.remove("char-y");
+                    chars[j].classList.add("char-b");
+                }
+            }
+        }
+    });
 }
 
 function createWordle() {
