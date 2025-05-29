@@ -8,28 +8,28 @@ class wordLists {
 
 // a copy of the answers list, used to generate random words
 // when answers are guessed correctly, they will be removed from this list
-let remaininganswers = wordLists.answers.slice();
+let remainingAnswers = wordLists.answers.slice();
 
-let googol = 10n ** 100n; // a counter of the total wordles remaining, that starts at 1 googol
-let words = BigInt(remaininganswers.length); // a counter of the unique wordles remaining, used for maths
-let inputshown = ""; // the word that's currently being written by the player
-let wordlecount = 24; // the amount of wordles on screen
+let totalWordlesRemaining = 10n ** 100n; // starts at 1 googol
+let uniqueWordlesRemaining = BigInt(remainingAnswers.length);
+let currentGuess = ""; // the word that's currently being written by the player
 
-let currentanswers = []; // the answers to the wordles on screen
-let currentclues = []; // the letters that are displayed in the top 5 rows of each wordle
-for (i = 0; i < wordlecount; i++) // fills currentclues with arrays
-    currentclues.push(["-----"]);
+let instanceCount = 24; // the amount of wordles on screen
+let instanceAnswers = [];
+let instanceHints = [];
+for (i = 0; i < instanceCount; i++) // fills instanceHints with arrays
+    instanceHints.push([""]);
 
 let wordles = document.getElementById("wordles");
 let display = document.getElementById("googol");
 
 let guesses = []; // list of all guesses so far
-let letterposs = {}; // which letters have been guessed in which positions
+let guessedLetters = {}; // which letters have been guessed in which positions
 for (const letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    letterposs[letter] = "-----";
+    guessedLetters[letter] = "-----";
 
-display.innerHTML = (googol - BigInt(wordlecount)).toString();
-refillWords(); // generates random answers for each wordle on screen
+display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
+generateAnswers();
 
 // makes the on-screen keyboard functional
 for (const letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
@@ -54,8 +54,7 @@ document.addEventListener("keydown", function onEvent(event) {
     }
 });
 
-// square root function for BigInts
-function sqrt(value) {
+function sqrtOfBigInt(value) {
     if (value < 0n) throw 'square root of negative numbers is not supported'
     if (value < 2n) return value;
 
@@ -69,40 +68,40 @@ function sqrt(value) {
     return newtonIteration(value, 1n);
 }
 
-// calculates the new googol when an answer has been guessed
-function wordFound() {
+// complicated math stuff
+function lowerWordleCounts() {
     //box-muller transform for random number with normal distribution
     const u = 1 - Math.random(); // Converting [0,1) to (0,1]
     const v = Math.random();
     const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 
     // calculate mean and standard deviation to approximate binomial distribution
-    const mean = googol / words;
-    const sd = (sqrt(googol * (words - 1n))) / words;
+    const mean = totalWordlesRemaining / uniqueWordlesRemaining;
+    const sd = (sqrtOfBigInt(totalWordlesRemaining * (uniqueWordlesRemaining - 1n))) / uniqueWordlesRemaining;
 
-    const bignumber = 2 ** 59; // a tool that lets us multiply a float and a bigint
-    const deviation = (sd * BigInt(Math.round(z * bignumber))) / BigInt(bignumber);
-    googol = googol - mean + deviation;
-    words--;
-    display.innerHTML = (googol - BigInt(wordlecount)).toString();
+    const bigNumber = 2 ** 59; // a tool that lets us multiply a float and a bigint
+    const deviation = (sd * BigInt(Math.round(z * bigNumber))) / BigInt(bigNumber);
+    totalWordlesRemaining = totalWordlesRemaining - mean + deviation;
+    uniqueWordlesRemaining--;
+    display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
 }
 
 function pressLetter(letter) {
     pressButtonAnimation(letter);
 
-    if (inputshown.length < 5) {
-        inputshown = inputshown + letter;
+    if (currentGuess.length < 5) {
+        currentGuess = currentGuess + letter;
         updateGuess();
     }
 }
 function pressBackspace() {
     pressButtonAnimation("BACKSPACE");
-    inputshown = inputshown.slice(0, -1);
+    currentGuess = currentGuess.slice(0, -1);
     updateGuess();
 }
 function pressClear() {
     pressButtonAnimation("BACKSPACE");
-    inputshown = "";
+    currentGuess = "";
     updateGuess();
 }
 
@@ -112,7 +111,7 @@ function updateGuess() {
         let row = currentrows[i]
 
         for (let j = 0; j < 5; j++) {
-            const char = inputshown[j];
+            const char = currentGuess[j];
 
             if (char !== null) {
                 row.children[j].textContent = char
@@ -127,23 +126,23 @@ function updateGuess() {
 
 function pressEnter() {
     pressButtonAnimation("ENTER");
-    if (wordLists.validguesses.indexOf(inputshown) > -1) {
-        const word = inputshown;
+    if (wordLists.validguesses.indexOf(currentGuess) > -1) {
+        const word = currentGuess;
         guesses.push(word);
-        inputshown = "";
+        currentGuess = "";
         for (i = 0; i < 5; i++) {
-            const clue = letterposs[word[i]];
-            letterposs[word[i]] = clue.slice(0, i) + word[i] + clue.slice(i + 1);
+            const hint = guessedLetters[word[i]];
+            guessedLetters[word[i]] = hint.slice(0, i) + word[i] + hint.slice(i + 1);
         }
-        const index = remaininganswers.indexOf(word);
+        const index = remainingAnswers.indexOf(word);
         if (index > -1) {
-            remaininganswers.splice(index, 1);
-            wordFound();
-            for (i = 0; i < currentanswers.length; i++)
-                if (currentanswers[i] === word)
-                    currentanswers[i] =remaininganswers[Math.floor(Math.random() * remaininganswers.length)];
+            remainingAnswers.splice(index, 1);
+            lowerWordleCounts();
+            for (i = 0; i < instanceAnswers.length; i++)
+                if (instanceAnswers[i] === word)
+                    instanceAnswers[i] =remainingAnswers[Math.floor(Math.random() * remainingAnswers.length)];
         }
-        setclues();
+        setHints();
         writeLetters();
         setColors();
     }
@@ -160,30 +159,29 @@ function pressButtonAnimation(button) {
     }
 }
 
-// generates answers for the wordles on screen
-function refillWords() {
-    let counter = wordlecount - currentanswers.length;
-    let w = remaininganswers.length;
+function generateAnswers() {
+    let counter = instanceCount - instanceAnswers.length;
+    let w = remainingAnswers.length;
     for (; counter > 0; counter--)
-        currentanswers.push(remaininganswers[Math.floor(Math.random() * w)]);
+        instanceAnswers.push(remainingAnswers[Math.floor(Math.random() * w)]);
 }
 
 // calculates which letters to show in the hints of each wordle
-function setclues() {
-    for (j = 0; j < wordlecount; j++) {
-        const t = currentanswers[j].split("").sort();
-        let clues = [];
+function setHints() {
+    for (j = 0; j < instanceCount; j++) {
+        const t = instanceAnswers[j].split("").sort();
+        let hints = [];
         for (i = 0; i < t.length; i++) {
             if (t[i] === t[i + 1]) continue;
-            let clue = letterposs[t[i]];
-            if (clue != "-----")
-                clues.push(clue);
+            let hint = guessedLetters[t[i]];
+            if (hint != "-----")
+                hints.push(hint);
         }
-        for (i = clues.length; i < 5; i++) {
-            clues.push("-----")
+        for (i = hints.length; i < 5; i++) {
+            hints.push("-----")
         }
         for (i = 0; i < 5; i++) {
-            currentclues[j][i] = clues[i];
+            instanceHints[j][i] = hints[i];
         }
     }
 }
@@ -193,15 +191,15 @@ function writeLetters() {
     const wordleElements = document.querySelectorAll(".wordle");
 
     wordleElements.forEach((wordle, index) => {
-        const clueRows = wordle.querySelectorAll(".wordle-hints .wordle-row");
+        const hintRows = wordle.querySelectorAll(".wordle-hints .wordle-row");
         const guessRows = wordle.querySelectorAll(".wordle-entries .wordle-row");
 
-        // add clues
-        const clues = currentclues[index];
+        // add hints
+        const hints = instanceHints[index];
         for (let r = 0; r < 5; r++) {
-            const cluetxt = clues[r];
-            clueRows[r].childNodes.forEach((cell, c) => {
-                const char = cluetxt[c]
+            const hinttxt = hints[r];
+            hintRows[r].childNodes.forEach((cell, c) => {
+                const char = hinttxt[c]
                 cell.textContent = (char === "-") ? "" : char;
             });
         }
@@ -224,7 +222,7 @@ function writeLetters() {
                     cell.textContent = guesstxt[c];
                 });
             }
-            inputshown = "";
+            currentGuess = "";
             updateGuess();
         }
     });
@@ -235,14 +233,14 @@ function setColors() {
     const wordleElements = document.querySelectorAll(".wordle");
 
     wordleElements.forEach((wordle, index) => {
-        const answer = currentanswers[index];
-        const clues = currentclues[index];
-        const clueRows = wordle.querySelectorAll(".wordle-hints .wordle-row");
+        const answer = instanceAnswers[index];
+        const hints = instanceHints[index];
+        const hintRows = wordle.querySelectorAll(".wordle-hints .wordle-row");
         const guessRows = wordle.querySelectorAll(".wordle-entries .wordle-row");
         const grl = Math.min(guessRows.length - 1, guesses.length);
         for (i = 0; i < 5; i++){
-            const chars = clueRows[i].querySelectorAll(".wordle-char");
-            colorRow(clues[i], chars, false);
+            const chars = hintRows[i].querySelectorAll(".wordle-char");
+            colorRow(hints[i], chars, false);
         }
         for (i = 0; i < grl; i++) {
             const chars = guessRows[i].querySelectorAll(".wordle-char");
@@ -267,7 +265,6 @@ function setColors() {
                         if (noRepeats) {
                             k = a.indexOf(guesstxt[j]);
                             a = a.slice(0, k) + "-" + a.slice(k + 1);
-                            console.log(index + ": " + a);
                         }
                     }
                     else chars[j].classList.add("char-b");
@@ -318,7 +315,7 @@ function createWordle() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    for (let i = 0; i < wordlecount; i++) {
+    for (let i = 0; i < instanceCount; i++) {
         wordles.appendChild(createWordle());
     }
 });
