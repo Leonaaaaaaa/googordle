@@ -13,6 +13,7 @@ let remainingAnswers = wordLists.answers.slice();
 let totalWordlesRemaining = 10n ** 100n; // starts at 1 googol
 let uniqueWordlesRemaining = BigInt(remainingAnswers.length);
 let currentGuess = ""; // the word that's currently being written by the player
+let victoryscreenActive = false;
 
 let instanceCount = 24; // the amount of wordles on screen
 let instanceAnswers = [];
@@ -85,6 +86,10 @@ function lowerWordleCounts() {
     totalWordlesRemaining = totalWordlesRemaining - mean + deviation;
     uniqueWordlesRemaining--;
     display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
+
+    if (totalWordlesRemaining <= 0) {
+        InitiateVictoryScreen();
+    }
 }
 
 function pressLetter(letter) {
@@ -107,6 +112,7 @@ function pressClear() {
 }
 
 function updateGuess() {
+    if (victoryscreenActive) return;
     const currentrows = document.getElementsByClassName("wordle-row current")
     for (let i = 0; i < currentrows.length; i++) {
         let row = currentrows[i]
@@ -126,6 +132,7 @@ function updateGuess() {
 }
 
 function pressEnter() {
+    if (victoryscreenActive) return;
     pressButtonAnimation("ENTER");
     if (wordLists.validguesses.indexOf(currentGuess) > -1) {
         const word = currentGuess;
@@ -316,6 +323,7 @@ function createWordle() {
 
 function InitiateVictoryScreen() {
     if (document.getElementById("victory-screen")) return;
+    victoryscreenActive = true;
 
     const VICTORYMUSIC_URL = "sfx/Happy Birthday to You.wav"
     const VICTORY_TEXT = "Congratulations, you have solved 10,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000 wordles!!!";
