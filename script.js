@@ -142,10 +142,9 @@ function pressEnter() {
         if (index > -1) {
             remaininganswers.splice(index, 1);
             wordFound();
-            while (currentanswers.indexOf(word) > -1) {
-                currentanswers.splice(currentanswers.indexOf(word), 1);
-            }
-            refillWords();
+            for (i = 0; i < currentanswers.length; i++)
+                if (currentanswers[i] === word)
+                    currentanswers[i] =remaininganswers[Math.floor(Math.random() * remaininganswers.length)];
         }
         setclues();
         writeLetters();
