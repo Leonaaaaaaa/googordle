@@ -149,16 +149,26 @@ function pressEnter() {
             lowerWordleCounts();
             for (i = 0; i < instanceAnswers.length; i++)
                 if (instanceAnswers[i] === word) {
-                    instanceAnswers[i] = remainingAnswers[Math.floor(Math.random() * remainingAnswers.length)];
-                    wordleSolveAnimation(i)
+                    replaceInstance(i);
                 }
-
-
         }
         setHints();
         writeLetters();
         setColors();
     }
+}
+
+function replaceInstance(i) {
+    console.log(instanceAnswers);
+    setTimeout(() => {
+        console.log(instanceAnswers);
+        instanceAnswers[i] = remainingAnswers[Math.floor(Math.random() * remainingAnswers.length)];
+        setHints();
+        writeLetters();
+        setColors();
+        console.log(instanceAnswers);
+    }, 400);
+    wordleSolveAnimation(i);
 }
 
 function wordleSolveAnimation(i) {
