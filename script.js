@@ -378,3 +378,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function supersecretcheatcode() {
+    function simulateKeyPress(key) {
+        const event = new KeyboardEvent('keydown', { key });
+        document.dispatchEvent(event);
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const btnContainer = document.getElementById("header");
+    const button = document.createElement("button");
+    button.textContent = "activate";
+    button.addEventListener("click", async () => {
+        for (const answer of wordLists.answers) {
+            for (const character of answer) {
+                simulateKeyPress(character);
+                await delay(5);
+            }
+            await delay(10);
+            simulateKeyPress("Enter");
+        }
+    });
+
+    btnContainer.appendChild(button);
+}
