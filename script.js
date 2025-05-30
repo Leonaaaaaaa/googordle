@@ -13,6 +13,7 @@ let remainingAnswers = wordLists.answers.slice();
 let totalWordlesRemaining = 10n ** 100n; // starts at 1 googol
 let uniqueWordlesRemaining = BigInt(remainingAnswers.length);
 let currentGuess = ""; // the word that's currently being written by the player
+let victoryscreenActive = false;
 
 let instanceCount = 24; // the amount of wordles on screen
 let instanceAnswers = [];
@@ -20,8 +21,9 @@ let instanceHints = [];
 for (i = 0; i < instanceCount; i++) // fills instanceHints with arrays
     instanceHints.push([""]);
 
-let wordles = document.getElementById("wordles");
-let display = document.getElementById("googol");
+const wordles = document.getElementById("wordles");
+const display = document.getElementById("googol");
+
 
 let guesses = []; // list of all guesses so far
 let guessedLetters = {}; // which letters have been guessed in which positions
@@ -84,6 +86,10 @@ function lowerWordleCounts() {
     totalWordlesRemaining = totalWordlesRemaining - mean + deviation;
     uniqueWordlesRemaining--;
     display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
+
+    if (totalWordlesRemaining <= 0) {
+        InitiateVictoryScreen();
+    }
 }
 
 function pressLetter(letter) {
@@ -106,6 +112,7 @@ function pressClear() {
 }
 
 function updateGuess() {
+    if (victoryscreenActive) return;
     const currentrows = document.getElementsByClassName("wordle-row current")
     for (let i = 0; i < currentrows.length; i++) {
         let row = currentrows[i]
@@ -125,6 +132,7 @@ function updateGuess() {
 }
 
 function pressEnter() {
+    if (victoryscreenActive) return;
     pressButtonAnimation("ENTER");
     if (wordLists.validguesses.indexOf(currentGuess) > -1) {
         const word = currentGuess;
@@ -313,9 +321,45 @@ function createWordle() {
     return wordle;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function InitiateVictoryScreen() {
+    if (document.getElementById("victory-screen")) return;
+    victoryscreenActive = true;
 
+    const VICTORYMUSIC_URL = "sfx/Happy Birthday to You.wav"
+    const VICTORY_TEXT = "Congratulations, you have solved 10,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000 wordles!!!";
+
+    const victoryscreen = document.createElement("div");
+    victoryscreen.id = "victory-screen";
+
+    const scrollpart = document.createElement("div");
+    scrollpart.id = "scroll-part";
+
+    const scrolltext = document.createElement("div");
+    scrolltext.id = "scroll-text";
+    scrolltext.textContent = VICTORY_TEXT;
+
+    const restartbtn = document.createElement("button");
+    restartbtn.id = "restart-game";
+    restartbtn.textContent = "Restart game :)";
+    restartbtn.addEventListener("click", () => {
+        window.location.reload();
+    });
+
+    const music = document.createElement("audio");
+    music.src = VICTORYMUSIC_URL;
+    music.loop = false; // loop could be funny :3
+
+    document.body.appendChild(victoryscreen)
+    victoryscreen.appendChild(scrollpart);
+    scrollpart.appendChild(scrolltext);
+    victoryscreen.appendChild(restartbtn);
+    victoryscreen.appendChild(music);
+    music.play()
+}
+
+document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < instanceCount; i++) {
         wordles.appendChild(createWordle());
     }
 });
+
