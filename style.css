@@ -101,6 +101,25 @@ p {
     background-color: #666666;
 }
 
+@media screen and (width <= 800px) {
+    .wordle-char {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 12px;
+        margin: 1px;
+    }
+
+    .wordle {
+        padding: 4px;
+    }
+
+    .wordle-expand {
+        font-size: 14px;
+        padding: 6px;
+    }
+}
+
 #keyboard {
     position: fixed;
     bottom: env(safe-area-inset-bottom, 0);
