@@ -1,7 +1,7 @@
 @font-face {
     font-family: "Comic Sans";
     src: local("Comic Sans"),
-         url("font/Comic%20Sans%20MS.ttf") format("truetype");
+        url("font/Comic%20Sans%20MS.ttf") format("truetype");
     font-display: swap;
 }
 
@@ -29,7 +29,7 @@ a:hover {
 }
 
 
-@media screen and (width <= 800px) {
+@media screen and (width <=800px) {
     body {
         width: 90%;
     }
@@ -47,7 +47,7 @@ p {
 }
 
 
-@media screen and (width <= 800px) {
+@media screen and (width <=800px) {
     #wordles {
         gap: 5px;
         justify-content: space-around;
@@ -60,6 +60,28 @@ p {
     border: 1px solid #636363;
     background-color: #1e1e1e;
 }
+
+.wordle.solved {
+    animation: wordleSolved 2s ease-out;
+}
+
+@keyframes wordleSolved {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 
 .wordle-row {
     display: flex;
@@ -114,7 +136,7 @@ p {
     background-color: #666666;
 }
 
-@media screen and (width <= 800px) {
+@media screen and (width <=800px) {
     .wordle-char {
         width: 24px;
         height: 24px;
@@ -209,10 +231,12 @@ p {
         transform: translateY(0px);
         background-color: #444444;
     }
+
     50% {
         transform: translateY(5px);
         background-color: #666666;
     }
+
     100% {
         transform: translateY(0px);
         background-color: #444444;
@@ -262,6 +286,7 @@ p {
     0% {
         transform: translateX(0%);
     }
+
     100% {
         transform: translateX(-100%);
     }
@@ -273,6 +298,7 @@ p {
         transform: translate(-50%, -50%) scale(0.9);
         opacity: 0;
     }
+
     100% {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
