@@ -62,7 +62,7 @@ p {
 }
 
 .wordle.solved {
-    animation: wordleSolved 2s ease-out;
+    animation: wordleSolved 1s ease-out;
 }
 
 @keyframes wordleSolved {
@@ -72,15 +72,15 @@ p {
         opacity: 1;
     }
 
-    20% {
+    40% {
         transform: scale(0.9);
-        transform: translateY(-20px);
+        transform: translateY(-15px);
         opacity: 0;
     }
 
-    20.001% {
+    40.001% {
         transform: scale(0.9);
-        transform: translateY(20px);
+        transform: translateY(5px);
         opacity: 0;
     }
 
