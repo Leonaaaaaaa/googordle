@@ -154,19 +154,17 @@ function pressEnter() {
         }
         setHints();
         writeLetters();
+        advanceGuessLines();
         setColors();
     }
 }
 
 function replaceInstance(i) {
-    console.log(instanceAnswers);
     setTimeout(() => {
-        console.log(instanceAnswers);
         instanceAnswers[i] = remainingAnswers[Math.floor(Math.random() * remainingAnswers.length)];
         setHints();
         writeLetters();
         setColors();
-        console.log(instanceAnswers);
     }, 400);
     wordleSolveAnimation(i);
 }
@@ -237,15 +235,6 @@ function writeLetters() {
             });
         }
 
-        // continue to next line
-        const currentIndex = Array.from(guessRows).findIndex(row => row.classList.contains("current"));
-        if (currentIndex !== -1 && currentIndex + 1 < guessRows.length) {
-            guessRows[currentIndex].classList.remove("current");
-
-            guessRows[currentIndex + 1].classList.remove("empty");
-            guessRows[currentIndex + 1].classList.add("current");
-        }
-
         //scroll the guesses upward to show only latest guesses on-screen
         if (guesses.length >= guessRows.length) {
             const grl = guessRows.length - 1;
@@ -255,8 +244,24 @@ function writeLetters() {
                     cell.textContent = guesstxt[c];
                 });
             }
-            currentGuess = "";
             updateGuess();
+        }
+    });
+}
+
+// changes which line guesses are written on for the first 5 guesses
+function advanceGuessLines() {
+    const wordleElements = document.querySelectorAll(".wordle");
+
+    wordleElements.forEach((wordle, index) => {
+        const guessRows = wordle.querySelectorAll(".wordle-entries .wordle-row");
+
+        const currentIndex = Array.from(guessRows).findIndex(row => row.classList.contains("current"));
+        if (currentIndex !== -1 && currentIndex + 1 < guessRows.length) {
+            guessRows[currentIndex].classList.remove("current");
+
+            guessRows[currentIndex + 1].classList.remove("empty");
+            guessRows[currentIndex + 1].classList.add("current");
         }
     });
 }
