@@ -174,6 +174,18 @@ function pressEnter() {
         advanceGuessLines();
         setColors();
     }
+    else {
+        const currentRows = document.getElementsByClassName("wordle-row current");
+        for (const currentRow of currentRows) {
+            for (i = 0; i < 5; i++) {
+                const char = currentRow.children[i];
+                char.classList.add("invalid");
+                char.addEventListener('animationend', () => {
+                    char.classList.remove("invalid");
+                }, { once: true });
+            }
+        }
+    }
 }
 
 function replaceInstance(i) {
@@ -190,22 +202,23 @@ function wordleSolveAnimation(i) {
     const wordle = wordles.children[i];
 
     wordle.classList.add("solved");
-    wordle.addEventListener('animationend', () => {
-        wordle.classList.remove('solved');
-    }, { once: true });
+    setTimeout(() => {
+        wordle.classList.remove("solved");
+    }, 1000);
 }
 
 function charPopAnimation(char) {
     char.classList.add("pop");
     char.addEventListener('animationend', () => {
-        char.classList.remove('pop');
+        char.classList.remove("pop");
     }, { once: true });
 }
 
 function pressButtonAnimation(button) {
     const keyboardbtn = document.getElementById("key-" + button)
     if (keyboardbtn) {
-        // keyboardbtn.classList.remove('pressed')
+        keyboardbtn.classList.remove('pressed');
+        keyboardbtn.offsetHeight; // trigger reflow
         keyboardbtn.classList.add('pressed');
         keyboardbtn.addEventListener('animationend', () => {
             keyboardbtn.classList.remove('pressed');
