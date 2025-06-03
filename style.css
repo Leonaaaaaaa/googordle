@@ -131,6 +131,24 @@ p {
     border: 1px #313131 solid;
 }
 
+.wordle-char.pop {
+    animation: charPop .3s ease-out;
+}
+
+@keyframes charPop {
+    0% {
+        transform: scale(1);
+    }
+
+    20% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 .wordle-expand {
     width: 100%;
     border-radius: 0px;
