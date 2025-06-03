@@ -29,6 +29,7 @@ let guesses = []; // list of all guesses so far
 let guessedLetters = {}; // which letters have been guessed in which positions
 for (const letter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     guessedLetters[letter] = "-----";
+let newLetters = "";
 
 display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
 generateAnswers();
@@ -138,9 +139,13 @@ function pressEnter() {
         const word = currentGuess;
         guesses.push(word);
         currentGuess = "";
+        newLetters = "-----";
         for (i = 0; i < 5; i++) {
             const hint = guessedLetters[word[i]];
-            guessedLetters[word[i]] = hint.slice(0, i) + word[i] + hint.slice(i + 1);
+            if (hint[i] === "-") {
+                guessedLetters[word[i]] = hint.slice(0, i) + word[i] + hint.slice(i + 1);
+                newLetters = newLetters.slice(0, i) + word[i] + newLetters.slice(i + 1);
+            }
         }
 
         const index = remainingAnswers.indexOf(word);
@@ -176,7 +181,13 @@ function wordleSolveAnimation(i) {
     wordle.addEventListener('animationend', () => {
         wordle.classList.remove('solved');
     }, { once: true });
+}
 
+function charPopAnimation(char) {
+    char.classList.add("pop");
+    char.addEventListener('animationend', () => {
+        char.classList.remove('pop');
+    }, { once: true });
 }
 
 function pressButtonAnimation(button) {
@@ -294,6 +305,7 @@ function setColors() {
                 if (a[j] === guesstxt[j]) {
                     chars[j].classList.add("char-g"); // all the greens are set first
                     if (noRepeats) a = a.slice(0, j) + "+" + a.slice(j + 1);
+                    if (guesstxt[j] === newLetters[j]) charPopAnimation(chars[j]);
                 }
             }
             for (j = 0; j < 5; j++) {
@@ -304,6 +316,7 @@ function setColors() {
                             k = a.indexOf(guesstxt[j]);
                             a = a.slice(0, k) + "-" + a.slice(k + 1);
                         }
+                        if (guesstxt[j] === newLetters[j]) charPopAnimation(chars[j]);
                     }
                     else chars[j].classList.add("char-b");
                 }
