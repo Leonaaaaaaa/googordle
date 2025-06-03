@@ -23,6 +23,7 @@ for (i = 0; i < instanceCount; i++) // fills instanceHints with arrays
 
 const wordles = document.getElementById("wordles");
 const display = document.getElementById("googol");
+const progressNumbers = document.getElementById("progress-numbers");
 
 
 let guesses = []; // list of all guesses so far
@@ -84,6 +85,7 @@ function lowerWordleCounts() {
 
     const bigNumber = 2 ** 59; // a tool that lets us multiply a float and a bigint
     const deviation = (sd * BigInt(Math.round(z * bigNumber))) / BigInt(bigNumber);
+    progressNumberAnimation(-mean + deviation);
     totalWordlesRemaining = totalWordlesRemaining - mean + deviation;
     uniqueWordlesRemaining--;
     display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
@@ -91,6 +93,16 @@ function lowerWordleCounts() {
     if (totalWordlesRemaining <= 0) {
         InitiateVictoryScreen();
     }
+}
+
+function progressNumberAnimation(text) {
+    const number = document.createElement("p");
+    number.className = "progress-number";
+    number.textContent = text;
+    progressNumbers.appendChild(number);
+    number.addEventListener('animationend', () => {
+        number.remove();
+    }, { once: true });
 }
 
 function pressLetter(letter) {
@@ -162,6 +174,18 @@ function pressEnter() {
         advanceGuessLines();
         setColors();
     }
+    else {
+        const currentRows = document.getElementsByClassName("wordle-row current");
+        for (const currentRow of currentRows) {
+            for (i = 0; i < 5; i++) {
+                const char = currentRow.children[i];
+                char.classList.add("invalid");
+                char.addEventListener('animationend', () => {
+                    char.classList.remove("invalid");
+                }, { once: true });
+            }
+        }
+    }
 }
 
 function replaceInstance(i) {
@@ -178,22 +202,23 @@ function wordleSolveAnimation(i) {
     const wordle = wordles.children[i];
 
     wordle.classList.add("solved");
-    wordle.addEventListener('animationend', () => {
-        wordle.classList.remove('solved');
-    }, { once: true });
+    setTimeout(() => {
+        wordle.classList.remove("solved");
+    }, 1000);
 }
 
 function charPopAnimation(char) {
     char.classList.add("pop");
     char.addEventListener('animationend', () => {
-        char.classList.remove('pop');
+        char.classList.remove("pop");
     }, { once: true });
 }
 
 function pressButtonAnimation(button) {
     const keyboardbtn = document.getElementById("key-" + button)
     if (keyboardbtn) {
-        // keyboardbtn.classList.remove('pressed')
+        keyboardbtn.classList.remove('pressed');
+        keyboardbtn.offsetHeight; // trigger reflow
         keyboardbtn.classList.add('pressed');
         keyboardbtn.addEventListener('animationend', () => {
             keyboardbtn.classList.remove('pressed');
