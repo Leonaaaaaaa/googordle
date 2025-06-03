@@ -23,6 +23,7 @@ for (i = 0; i < instanceCount; i++) // fills instanceHints with arrays
 
 const wordles = document.getElementById("wordles");
 const display = document.getElementById("googol");
+const progressNumbers = document.getElementById("progress-numbers");
 
 
 let guesses = []; // list of all guesses so far
@@ -84,6 +85,7 @@ function lowerWordleCounts() {
 
     const bigNumber = 2 ** 59; // a tool that lets us multiply a float and a bigint
     const deviation = (sd * BigInt(Math.round(z * bigNumber))) / BigInt(bigNumber);
+    progressNumberAnimation(-mean + deviation);
     totalWordlesRemaining = totalWordlesRemaining - mean + deviation;
     uniqueWordlesRemaining--;
     display.innerHTML = (totalWordlesRemaining - BigInt(instanceCount)).toString();
@@ -91,6 +93,16 @@ function lowerWordleCounts() {
     if (totalWordlesRemaining <= 0) {
         InitiateVictoryScreen();
     }
+}
+
+function progressNumberAnimation(text) {
+    const number = document.createElement("p");
+    number.className = "progress-number";
+    number.textContent = text;
+    progressNumbers.appendChild(number);
+    number.addEventListener('animationend', () => {
+        number.remove();
+    }, { once: true });
 }
 
 function pressLetter(letter) {
