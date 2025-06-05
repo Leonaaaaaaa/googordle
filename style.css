@@ -149,7 +149,7 @@ p {
 }
 
 .wordle-char.invalid {
-    animation: invalidGuess 1s ease-out;
+    animation: invalidGuess .4s ease-out;
 }
 
 @keyframes invalidGuess {
@@ -204,17 +204,17 @@ p {
     position: absolute;
     text-align: center;
     width: 100%;
-    animation: fadetext 1s linear;
+    animation: fadetext 1.6s linear;
 }
 
 @keyframes fadetext {
     0% {
-        transform: translateY(10px);
+        transform: translateY(-15px);
         opacity: 1;
     }
 
     100% {
-        transform: translateY(30px);
+        transform: translateY(-30px);
         opacity: 0;
     }
 }

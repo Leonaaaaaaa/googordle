@@ -200,18 +200,22 @@ function replaceInstance(i) {
 
 function wordleSolveAnimation(i) {
     const wordle = wordles.children[i];
-
+    wordle.classList.remove("solved");
+    wordle.offsetHeight; // trigger reflow
     wordle.classList.add("solved");
-    setTimeout(() => {
-        wordle.classList.remove("solved");
-    }, 1000);
+    wordle.addEventListener('animationend', function(event) {
+        console.log(event.animationName);
+        if (event.animationName === "wordleSolved")
+            wordle.classList.remove("solved");
+    });
 }
 
 function charPopAnimation(char) {
     char.classList.add("pop");
-    char.addEventListener('animationend', () => {
-        char.classList.remove("pop");
-    }, { once: true });
+    char.addEventListener('animationend', function(event) {
+        if (event.animationName === "charPop")
+            char.classList.remove("pop");
+    });
 }
 
 function pressButtonAnimation(button) {
