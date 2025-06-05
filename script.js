@@ -174,18 +174,7 @@ function pressEnter() {
         advanceGuessLines();
         setColors();
     }
-    else {
-        const currentRows = document.getElementsByClassName("wordle-row current");
-        for (const currentRow of currentRows) {
-            for (i = 0; i < 5; i++) {
-                const char = currentRow.children[i];
-                char.classList.add("invalid");
-                char.addEventListener('animationend', () => {
-                    char.classList.remove("invalid");
-                }, { once: true });
-            }
-        }
-    }
+    else invalidGuessAnimation();
 }
 
 function replaceInstance(i) {
@@ -196,6 +185,22 @@ function replaceInstance(i) {
         setColors();
     }, 400);
     wordleSolveAnimation(i);
+}
+
+function invalidGuessAnimation() {
+    const currentRows = document.getElementsByClassName("wordle-row current");
+    for (const currentRow of currentRows) {
+        for (i = 0; i < 5; i++) {
+            const char = currentRow.children[i];
+            char.classList.remove("invalid");
+            char.offsetHeight; // trigger reflow
+            char.classList.add("invalid");
+            char.addEventListener('animationend', function (event) {
+                if (event.animationName === "invalidGuess")
+                    char.classList.remove("invalid");
+            });
+        }
+    }
 }
 
 function wordleSolveAnimation(i) {
